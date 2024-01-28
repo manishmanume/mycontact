@@ -1,0 +1,39 @@
+input[type="text"],
+input[type="email"],
+input[type="Address"],
+input[type="Number"],
+select{
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid black;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+input::placeholder{
+    font-size: 16px;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button{
+    appearance: none;
+}
+
+input[type="submit"]{
+    width: 100%;
+    background-color: #4caf50;
+    color: whitesmoke;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+input[type="submit"]:hover{
+    background-color: #45a049;
+}
+
+

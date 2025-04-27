@@ -95,7 +95,7 @@ const Home = () => {
                       </div>
                     </td>
                     <td>{contact.email}</td>
-                    <td>{contact.address}</td>
+                    <td>{contact.Address}</td>
                     <td>{contact.contact}</td>
                     <td>
                       <div className="action-buttons">

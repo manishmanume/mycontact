@@ -9,7 +9,7 @@ import { FiUser, FiMail, FiHome, FiPhone, FiSave, FiEdit2, FiX } from 'react-ico
 const initialState = {
   name: "",
   email: "",
-  address: "",
+  Address: "",
   contact: ""
 };
 
@@ -18,7 +18,7 @@ const Addedit = () => {
   const [data, setData] = useState({});
   const [loading, setLoading] = useState(false);
 
-  const { name, email, address, contact } = state;
+  const { name, email, Address, contact } = state;
 
   const navigate = useNavigate();
   const { id } = useParams();
@@ -59,7 +59,7 @@ const Addedit = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     
-    if (!name || !email || !address || !contact) {
+    if (!name || !email || !Address || !contact) {
       toast.error("Please fill in all fields");
       return;
     }
@@ -147,8 +147,8 @@ const Addedit = () => {
             <input
               type="text"
               id="address"
-              name="address"
-              value={address || ""}
+              name="Address"
+              value={Address || ""}
               onChange={handleInputChange}
               placeholder="123 Main St, City, Country"
               className="form-input"

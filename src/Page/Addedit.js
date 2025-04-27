@@ -1,102 +1,205 @@
-import React from 'react'
-import './Addedit.css'
-import firedb from '../Fire'
-import { useState } from 'react'
-import { useNavigate, useParams } from 'react-router'
-import { toast } from "react-toastify"
-import { useEffect } from 'react'
+import React from 'react';
+import '../assets/CSS/Addedit.css';
+import firedb from '../DB/Fire';
+import { useState, useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router';
+import { toast } from "react-toastify";
+import { FiUser, FiMail, FiHome, FiPhone, FiSave, FiEdit2, FiX } from 'react-icons/fi';
 
-
-var content = {
+const initialState = {
   name: "",
   email: "",
-  Address: "",
+  address: "",
   contact: ""
-}
+};
 
 const Addedit = () => {
-  const [state, setstate] = useState(content)
-  const [data, Setdata] = useState({})
+  const [state, setState] = useState(initialState);
+  const [data, setData] = useState({});
+  const [loading, setLoading] = useState(false);
 
-  const { name, email, Address, contact } = state
+  const { name, email, address, contact } = state;
 
-  const navigate = useNavigate()
-
-  const { id } = useParams()
+  const navigate = useNavigate();
+  const { id } = useParams();
 
   useEffect(() => {
+    setLoading(true);
     firedb.child("Contacts").on("value", (snapshot) => {
       if (snapshot.val() !== null) {
-        Setdata({ ...snapshot.val() })
+        setData({ ...snapshot.val() });
       } else {
-        Setdata({})
+        setData({});
       }
-    })
+      setLoading(false);
+    });
 
     return () => {
-      Setdata({})
-    }
-  }, [id])
+      setData({});
+    };
+  }, [id]);
 
-  useEffect(() =>{
-    if(id){
-      setstate({...data[id]})
-    }else{
-      setstate({...content})
-    }
-
-    return() =>{
-      setstate({...content})
-    }
-  },[id,data])
-
-  const mut = (e) => {
-    const { name, value } = e.target;
-    setstate({ ...state, [name]: value })
-  }
-
-  const store = (e) => {
-    e.preventDefault()
-    if (!name || !email || !Address || !contact) {
-      toast.error("please Enter Your Detailed")
+  useEffect(() => {
+    if (id) {
+      setState({ ...data[id] });
     } else {
-      if(!id){
-        firedb.child("Contacts").push(state, (err) => {
-          if (err) {
-            toast.error(err)
-          } else {
-            toast.success("Contact Added Successfully")
-          }
-        })        
-
-      }else{
-        firedb.child(`Contacts/${id}`).set(state, (err) => {
-          if (err) {
-            toast.error(err)
-          } else {
-            toast.success("Contact Updated Successfully")
-          }
-        })
-      }
-      
-      setTimeout(() => navigate("/"), 1000)
+      setState({ ...initialState });
     }
-  }
 
+    return () => {
+      setState({ ...initialState });
+    };
+  }, [id, data]);
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setState({ ...state, [name]: value });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    
+    if (!name || !email || !address || !contact) {
+      toast.error("Please fill in all fields");
+      return;
+    }
+
+    setLoading(true);
+    
+    if (!id) {
+      firedb.child("Contacts").push(state, (err) => {
+        setLoading(false);
+        if (err) {
+          toast.error(err);
+        } else {
+          toast.success("Contact added successfully!");
+          setTimeout(() => navigate("/"), 1000);
+        }
+      });
+    } else {
+      firedb.child(`Contacts/${id}`).set(state, (err) => {
+        setLoading(false);
+        if (err) {
+          toast.error(err);
+        } else {
+          toast.success("Contact updated successfully!");
+          setTimeout(() => navigate("/"), 1000);
+        }
+      });
+    }
+  };
 
   return (
-    <div style={{ margin: "100px" }}>
-      <h1>AddEdit</h1>
-      <form action="" style={{ width: "600px", marginLeft: "370px" }}>
-        <label htmlFor="">Name</label><input type="text" value={name || ""} onChange={mut} name='name' placeholder='Enter Your Name' />
-        <label htmlFor="">Email</label><input type="email" value={email || ""} onChange={mut} name='email' placeholder='Enter Your email' />
-        <label htmlFor="">Address</label><input type="Address" value={Address || ""} onChange={mut} name='Address' placeholder='Enter Your Address' />
-        <label htmlFor="">Contact</label><input type="Number" value={contact || ""} onChange={mut} name='contact' placeholder='Enter Your contact' />
-        {/* <button className='submit' value={id ? "Update" : "Save"} onClick={store}>Save</button> */}
-        <input type="submit" value={id ? "Update" : "Save"} onClick={store}/>
-      </form>
+    <div className="professional-form-container">
+      <div className="professional-form-card">
+        <div className="form-header">
+          <h2 className="form-title">
+            {id ? (
+              <>
+                <FiEdit2 className="form-icon" /> Edit Contact
+              </>
+            ) : (
+              <>
+                <FiUser className="form-icon" /> Add New Contact
+              </>
+            )}
+          </h2>
+          <p className="form-subtitle">Please {id ? "update" : "enter"} the contact details below</p>
+        </div>
+        
+        <form onSubmit={handleSubmit} className="professional-form">
+          <div className="form-row">
+            <div className="form-group name-group">
+              <label htmlFor="name" className="form-label">
+                <FiUser className="input-icon" /> Full Name
+              </label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                value={name || ""}
+                onChange={handleInputChange}
+                placeholder="John Doe"
+                className="form-input"
+              />
+            </div>
+            
+            <div className="form-group email-group">
+              <label htmlFor="email" className="form-label">
+                <FiMail className="input-icon" /> Email Address
+              </label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                value={email || ""}
+                onChange={handleInputChange}
+                placeholder="john@example.com"
+                className="form-input"
+              />
+            </div>
+          </div>
+          
+          <div className="form-group">
+            <label htmlFor="address" className="form-label">
+              <FiHome className="input-icon" /> Address
+            </label>
+            <input
+              type="text"
+              id="address"
+              name="address"
+              value={address || ""}
+              onChange={handleInputChange}
+              placeholder="123 Main St, City, Country"
+              className="form-input"
+            />
+          </div>
+          
+          <div className="form-group">
+            <label htmlFor="contact" className="form-label">
+              <FiPhone className="input-icon" /> Phone Number
+            </label>
+            <input
+              type="tel"
+              id="contact"
+              name="contact"
+              value={contact || ""}
+              onChange={handleInputChange}
+              placeholder="+1 234 567 8900"
+              className="form-input"
+            />
+          </div>
+          
+          <div className="form-actions">
+            <button
+              type="button"
+              onClick={() => navigate("/")}
+              className="btn btn-outline"
+            >
+              <FiX className="btn-icon" /> Cancel
+            </button>
+            <button
+              type="submit"
+              className="btn btn-primary"
+              disabled={loading}
+            >
+              {loading ? (
+                <span className="spinner"></span>
+              ) : id ? (
+                <>
+                  <FiEdit2 className="btn-icon" /> Update Contact
+                </>
+              ) : (
+                <>
+                  <FiSave className="btn-icon" /> Save Contact
+                </>
+              )}
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default Addedit
+export default Addedit;

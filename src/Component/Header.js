@@ -1,46 +1,77 @@
-import React, { useEffect, useState } from 'react'
-import {Link, useLocation} from 'react-router-dom'
-import './Header.css'
+import React, { useEffect, useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import { FaHome, FaUserPlus, FaInfoCircle, FaBars, FaTimes } from 'react-icons/fa';
+import '../assets/CSS/Header.css';
 
 const Header = () => {
-    const [activeTab, setactiveTab ] = useState("Home")
-    const location = useLocation()
+    const [activeTab, setActiveTab] = useState("Home");
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const location = useLocation();
 
     useEffect(() => {
-        if(location.pathname === "/") {
-            setactiveTab("Home")
-        }else if(location.pathname === "/Add") {
-            setactiveTab("AddContact")
+        if (location.pathname === "/") {
+            setActiveTab("Home");
+        } else if (location.pathname === "/Add") {
+            setActiveTab("AddContact");
+        } else if (location.pathname === "/About") {
+            setActiveTab("About");
         }
-        else if(location.pathname === "/About") {
-            setactiveTab("About")
-        }
-    }, [location])
-  return (
-    <div className='header'>
-        <div className="logo">Contact App</div>
-        <div className="header-right">
-           <Link to='/'>
-            <p className={`${activeTab === "Home" ? "active" : ""}`} onClick={()=> setactiveTab("Home") }>
-                Home
-            </p>
+        
+        setIsMobileMenuOpen(false);
+    }, [location]);
 
-           </Link>
-           <Link to='/Add'>
-           <p className={`${activeTab === "AddContact" ? "active" : ""}`} onClick={()=> setactiveTab("AddContact") }>
-                Add Contact
-            </p>
+    const toggleMobileMenu = () => {
+        setIsMobileMenuOpen(!isMobileMenuOpen);
+    };
 
-           </Link><Link to='/About'>
-            {/* <p className={`${activeTab === "About"} ? "active" : ""`} onClick={()=> setactiveTab("About") }>
-                About 
-            </p> */}
+    return (
+        <header className="header">
+            <div className="header-container">
+                <div className="logo-container">
+                    <Link to="/" className="logo">
+                        <span className="logo-icon">👋</span>
+                        <span className="logo-text">ContactApp</span>
+                    </Link>
+                </div>
 
-           </Link>
-        </div>
-      
-    </div>
-  )
-}
+                <nav className="desktop-nav">
+                    <Link to="/" className={`nav-link ${activeTab === "Home" ? "active" : ""}`}>
+                        <FaHome className="nav-icon" />
+                        <span>Home</span>
+                    </Link>
+                    <Link to="/Add" className={`nav-link ${activeTab === "AddContact" ? "active" : ""}`}>
+                        <FaUserPlus className="nav-icon" />
+                        <span>Add Contact</span>
+                    </Link>
+                    <Link to="/About" className={`nav-link ${activeTab === "About" ? "active" : ""}`}>
+                        <FaInfoCircle className="nav-icon" />
+                        <span>About</span>
+                    </Link>
+                </nav>
 
-export default Header
+                <button className="mobile-menu-button" onClick={toggleMobileMenu}>
+                    {isMobileMenuOpen ? <FaTimes /> : <FaBars />}
+                </button>
+
+                {isMobileMenuOpen && (
+                    <nav className="mobile-nav">
+                        <Link to="/" className={`mobile-nav-link ${activeTab === "Home" ? "active" : ""}`} onClick={toggleMobileMenu}>
+                            <FaHome className="nav-icon" />
+                            <span>Home</span>
+                        </Link>
+                        <Link to="/Add" className={`mobile-nav-link ${activeTab === "AddContact" ? "active" : ""}`} onClick={toggleMobileMenu}>
+                            <FaUserPlus className="nav-icon" />
+                            <span>Add Contact</span>
+                        </Link>
+                        <Link to="/about" className={`mobile-nav-link ${activeTab === "About" ? "active" : ""}`} onClick={toggleMobileMenu}>
+                            <FaInfoCircle className="nav-icon" />
+                            <span>About</span>
+                        </Link>
+                    </nav>
+                )}
+            </div>
+        </header>
+    );
+};
+
+export default Header;

@@ -1,0 +1,217 @@
+:root {
+    --primary-color: #4f46e5;
+    --primary-light: #6366f1;
+    --secondary-color: #6b7280;
+    --light-color: #f9fafb;
+    --dark-color: #111827;
+    --border-color: #e5e7eb;
+    --footer-bg: #1f2937;
+    --footer-text: #f3f4f6;
+    --footer-link-hover: #e5e7eb;
+    --transition: all 0.3s ease;
+  }
+  
+  .app-footer {
+    background-color: var(--footer-bg);
+    color: var(--footer-text);
+    padding: 4rem 0 0;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  }
+  
+  .footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+  
+  .footer-top {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 3rem;
+    padding-bottom: 3rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .footer-brand .logo {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 1rem;
+  }
+  
+  .footer-brand .tagline {
+    color: var(--secondary-color);
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+  }
+  
+  .social-links {
+    display: flex;
+    gap: 1rem;
+  }
+  
+  .social-links a {
+    color: var(--footer-text);
+    font-size: 1.25rem;
+    transition: var(--transition);
+    opacity: 0.7;
+  }
+  
+  .social-links a:hover {
+    opacity: 1;
+    color: var(--primary-light);
+    transform: translateY(-2px);
+  }
+  
+  .footer-links {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+  }
+  
+  .link-column h3 {
+    color: white;
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    position: relative;
+    padding-bottom: 0.5rem;
+  }
+  
+  .link-column h3::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 40px;
+    height: 2px;
+    background-color: var(--primary-light);
+  }
+  
+  .link-column ul {
+    list-style: none;
+  }
+  
+  .link-column li {
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  
+  .link-column a {
+    color: var(--secondary-color);
+    text-decoration: none;
+    transition: var(--transition);
+  }
+  
+  .link-column a:hover {
+    color: var(--footer-link-hover);
+    padding-left: 5px;
+  }
+  
+  .contact-info li {
+    color: var(--secondary-color);
+    line-height: 1.6;
+  }
+  
+  .contact-info svg {
+    margin-top: 3px;
+    min-width: 16px;
+    color: var(--primary-light);
+  }
+  
+  .footer-bottom {
+    padding: 2rem 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    color: var(--secondary-color);
+    font-size: 0.9rem;
+  }
+  
+  .legal-links {
+    display: flex;
+    gap: 1.5rem;
+  }
+  
+  .legal-links a {
+    color: var(--secondary-color);
+    text-decoration: none;
+    transition: var(--transition);
+  }
+  
+  .legal-links a:hover {
+    color: var(--footer-link-hover);
+  }
+  
+  .made-with {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+  }
+  
+  .heart-icon {
+    color: #ef4444;
+    animation: pulse 1.5s infinite;
+  }
+  
+  @keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+  }
+  
+  /* Responsive Styles */
+  @media (max-width: 992px) {
+    .footer-top {
+      grid-template-columns: 1fr;
+    }
+    
+    .footer-links {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2rem 3rem;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .footer-container {
+      padding: 0 1.5rem;
+    }
+    
+    .footer-top {
+      padding-bottom: 2rem;
+    }
+    
+    .footer-bottom {
+      flex-direction: column;
+      text-align: center;
+      gap: 1rem;
+      padding: 1.5rem 0;
+    }
+    
+    .legal-links {
+      order: 2;
+    }
+    
+    .copyright {
+      order: 1;
+    }
+    
+    .made-with {
+      order: 3;
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .footer-links {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+    
+    .link-column h3 {
+      margin-bottom: 1rem;
+    }
+  }
